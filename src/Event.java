@@ -6,6 +6,10 @@ public class Event {
 	String event; //Strings are formatted with person 1 being "_v1" and person 2 being "_v2"
 	boolean transitive;
 	
+	public Event(String s) {
+		event = s;
+	}
+	
 	public boolean isTransitive(){
 		return transitive;
 	}
