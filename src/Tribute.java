@@ -1,4 +1,5 @@
 
+
 public class Tribute {
 	private int district;
 	private boolean isMale;
@@ -16,6 +17,10 @@ public class Tribute {
 	
 	String getName(){
 		return name;
+	}
+	
+	void setName(String name) {
+		this.name = name;
 	}
 	
 	void setEvent(Event event, Tribute killer){
