@@ -1,4 +1,7 @@
+
 import java.util.*;
+import java.util.ArrayList;
+
 public class GameData {
 	private ArrayList<Tribute> users;
 	private ArrayList<Event> events;
@@ -27,6 +30,12 @@ public class GameData {
 		this.killNum = killNum;
 		day = 0;
 		rand = new Random(); //Randomly determine # of people to kill each day
+	}
+	public void setUsers(ArrayList<Tribute> users) {
+		this.users = users;
+	}
+	public ArrayList<Tribute> getUsers() {
+		return users;
 	}
 	
 	/**
