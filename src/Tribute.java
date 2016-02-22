@@ -10,6 +10,17 @@ public class Tribute {
 	private int strength;
 	private String event;
 	
+	public Tribute(){
+		district = 0;
+		isMale = false;
+		isDead = false;
+		name = null;
+		health = 0; // probably need to change this
+		items = null;
+		strength = 0;
+		event = null;
+	}
+	
 	int getDistrict(){
 		return district;
 	}
