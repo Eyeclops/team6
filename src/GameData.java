@@ -80,13 +80,13 @@ public class GameData {
 			int tributeNum = rand.nextInt(users.size()*1000) + 1;
 			Tribute lastUser = null;
 			while(tributeNum > 0){
-				lastUser = users.get(rand.nextInt(users.size() - 1));
+				lastUser = users.get(rand.nextInt(users.size()));
 				tributeNum -= (1000-lastUser.getStrength());
 			}
-			Event e = events.get(rand.nextInt(events.size() - 1));
+			Event e = events.get(rand.nextInt(events.size()));
 			users.remove(lastUser); //remove from active players
 			if(e.isTransitive()){
-				dead.add(e.getString(lastUser, users.get(rand.nextInt(events.size() - 1))));
+				dead.add(e.getString(lastUser, users.get(rand.nextInt(users.size()))));
 			} else {
 				dead.add(e.getString(lastUser));
 			}

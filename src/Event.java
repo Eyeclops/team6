@@ -22,7 +22,6 @@ public class Event {
 	
 	public String getString(Tribute victim){
 		String s = event;
-		System.out.println(victim.getName());
 		return s.replaceAll("_v1", victim.getName());
 	}
 	
