@@ -7,7 +7,7 @@ public class GameDataTest {
 		//Create events
 		ArrayList<Event> events = new ArrayList<Event>();
 		events.add(new Event("_v1 killed _v2", true));
-		events.add(new Event("_v1 tripped on a banana peel and died.", false));
+		events.add(new Event("_v1 tripped and died.", false));
 		ArrayList<Event> nonLethal = new ArrayList<Event>();
 		nonLethal.add(new Event("_v1 slapped _v2", true));
 		nonLethal.add(new Event("_v1 took a nap", false));
@@ -26,7 +26,6 @@ public class GameDataTest {
 		//Copy for the second game
 		ArrayList<Tribute> t2 = (ArrayList<Tribute>) t.clone();
 		
-		
 		//Game 1
 		System.out.println("Game 1:");
 		GameData test1 = new GameData(t, events, events, new  ArrayList<Item>(), 5, nonLethal, 2);
@@ -36,6 +35,7 @@ public class GameDataTest {
 				if(!s.equals("_NULL_"))	{	System.out.println(s);	}
 			}
 		}
+		System.out.println("Winner: " + test1.getUsers().get(0).getName());
 		System.out.println();
 		System.out.println();
 		
@@ -48,6 +48,7 @@ public class GameDataTest {
 				if(!s.equals("_NULL_"))	{	System.out.println(s);	}
 			}
 		}
+		System.out.println("Winner: " + test2.getUsers().get(0).getName());
 			
 	}
 
