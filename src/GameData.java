@@ -1,4 +1,3 @@
-
 import java.util.*;
 import java.util.ArrayList;
 
@@ -45,10 +44,19 @@ public class GameData {
 	}
 	
 	/**
+	 * Returns the current day in the hunger games
+	 * @return the current day
+	 */
+	public int getDay() {
+		return this.day;
+	}
+	
+	/**
 	 * Progresses through a day.
 	 * @return List of the day's events. If the game is over the last string is "_NULL_"
 	 */
 	public ArrayList<String> nextDay(){
+		day++;
 		ArrayList<String> dead = new ArrayList<String>();
  		int toKill = rand.nextInt(killNum) + 1; //Makes it so toKill is at least 1 and killNum can reach the max int.
  		int randEvents = rand.nextInt(nonLethalNum) + 1;
@@ -84,6 +92,7 @@ public class GameData {
 				tributeNum -= (1000-lastUser.getStrength());
 			}
 			Event e = events.get(rand.nextInt(events.size()));
+			lastUser.setDead(true);
 			users.remove(lastUser); //remove from active players
 			if(e.isTransitive()){
 				dead.add(e.getString(lastUser, users.get(rand.nextInt(users.size()))));
@@ -98,6 +107,8 @@ public class GameData {
 		}
 		return dead;
 	}
-	
+	public void resetDay() {
+		day = 0;
+	}
 	
 }
