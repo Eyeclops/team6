@@ -121,8 +121,10 @@ public class HungerGames extends JFrame implements ActionListener{
 		app.setVisible(true);
 		
 		ArrayList<Event> events = new ArrayList<Event>();
-		events.add(new Event("_v1 killled _v2"));
-		data = new GameData(new ArrayList<Tribute>(), events, new ArrayList<Event>(), new  ArrayList<Item>(), 5);
+		events.add(new Event("_v1 killed _v2", true));
+		ArrayList<Event> nonLethal = new ArrayList<Event>();
+		nonLethal.add(new Event("_v1 bitch-slapped _v2", true));
+		data = new GameData(new ArrayList<Tribute>(), events, new ArrayList<Event>(), new  ArrayList<Item>(), 5, nonLethal, 2);
 
 	}
 	@Override
@@ -139,7 +141,10 @@ public class HungerGames extends JFrame implements ActionListener{
 			}
 			data.setUsers(tributes);
 			while(data.getUsers().size() != 1) {
-				data.nextDay();
+				ArrayList<String> returns = data.nextDay();
+				for(String s : returns){
+					System.out.println(s);
+				}
 			}
 			JOptionPane.showMessageDialog(null, data.getUsers().get(0).getName() + " is the winner!");
 		}

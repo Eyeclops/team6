@@ -10,9 +10,39 @@ public class Tribute {
 	private int strength;
 	private String event;
 	
-	//TODO add getters and setters
-	int getStrength(){
-		return strength;
+	public Tribute(){
+		district = 0;
+		isMale = false;
+		isDead = false;
+		name = null;
+		health = 0; // probably need to change this
+		items = null;
+		strength = 0;
+		event = null;
+	}
+	
+	int getDistrict(){
+		return district;
+	}
+	
+	void setDistrict(int district){
+		this.district = district;
+	}
+	
+	boolean getMale(){
+		return isMale;
+	}
+	
+	void setMale(boolean isMale){
+		this.isMale = isMale;
+	}
+	
+	boolean getDead(){
+		return isDead;
+	}
+	
+	void setDead(boolean isDead){
+		this.isDead = isDead;
 	}
 	
 	String getName(){
@@ -21,6 +51,18 @@ public class Tribute {
 	
 	void setName(String name) {
 		this.name = name;
+	}
+	
+	int getHealth(){
+		return health;
+	}
+	
+	void setHealth(int health){
+		this.health = health;
+	}
+
+	int getStrength(){
+		return strength;
 	}
 	
 	void setEvent(Event event, Tribute killer){
