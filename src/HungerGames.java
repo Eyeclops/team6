@@ -138,8 +138,26 @@ public class HungerGames extends JFrame implements ActionListener{
 
 		ArrayList<Event> events = new ArrayList<Event>();
 		events.add(new Event("_v1 killed _v2", true));
+		events.add(new Event("_v1 stabbed _v2 with a knife",true));
+		events.add(new Event("_v1 skewered _v2 with a spear", true));
+		events.add(new Event("_v1 fell off a cliff", false));
+		events.add(new Event("_v1 shot _v2", true));
+		events.add(new Event("_v1 died after eating poisoned food", false));
+		events.add(new Event("_v1 was stung to death by a swarm of hornets", false));
+		events.add(new Event("_v1 crushed _v2's skull with a rock", true));
+		events.add(new Event("_v1 decapitated _v2 with a machete", true));
+		events.add(new Event("_v1 was flattened under a landslide", false));
 		ArrayList<Event> nonLethal = new ArrayList<Event>();
 		nonLethal.add(new Event("_v1 bitch-slapped _v2", true));
+		nonLethal.add(new Event("_v1 slipped while climbing a tree and broke their leg", false));
+		nonLethal.add(new Event("_v1 and _v2 decided to work together", true));
+		nonLethal.add(new Event("_v1 was injured trying to escape from _v2", true));
+		nonLethal.add(new Event("_v1 got sick after drinking contaminated water", false));
+		nonLethal.add(new Event("_v1 and v2 got into a fistfight", true));
+		nonLethal.add(new Event("_v1 found a knife", false)); // not sure if item events belong here
+		nonLethal.add(new Event("_v1 made a spear", false));
+		nonLethal.add(new Event("_v1 found a gun", false));
+		nonLethal.add(new Event("_v1 found a machete", false));
 		data = new GameData(new ArrayList<Tribute>(), events, new ArrayList<Event>(), new  ArrayList<Item>(), 5, nonLethal, 2);
 
 	}
