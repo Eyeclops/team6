@@ -79,6 +79,9 @@ public class GameData {
  				dead.add(e.getString(t, t2));
  			}
  			else {
+ 				if(e.GetItem() != null){
+ 					t.addItem(e.GetItem()); //Give item to user
+ 				}
  				dead.add(e.getString(t));
  			}
  		}
