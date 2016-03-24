@@ -79,6 +79,9 @@ public class GameData {
  				dead.add(e.getString(t, t2));
  			}
  			else {
+ 				if(e.GetItem() != null){
+ 					t.addItem(e.GetItem()); //Give item to user
+ 				}
  				dead.add(e.getString(t));
  			}
  		}
@@ -109,6 +112,85 @@ public class GameData {
 	}
 	public void resetDay() {
 		day = 0;
+	}
+	
+	public ArrayList<String> getFemaleNames() {
+		ArrayList<String> names = new ArrayList<String>();
+		names.add("Leslie Knope");
+		names.add("Lois Griffin");
+		names.add("Maggie Simpson");
+		names.add("Lisa Simpson");
+		names.add("Meg Griffin");
+		names.add("WonderWoman");
+		names.add("Lidsay Lohan");
+		names.add("Britney Spears");
+		names.add("Hilary Clinton");
+		names.add("Pheobe Buffay");
+		names.add("Katniss Everdeen");
+		names.add("Amy Phoeler");
+		names.add("Tina Fey");
+		names.add("Kristen Whig");
+		names.add("Oprah");
+		names.add("Michelle Obama");
+		names.add("Hope Solo");
+		names.add("Queen of England");
+		names.add("The Purple Teletubbie");
+		names.add("Beyonce");
+		names.add("Ellen DeGeneres");
+		names.add("Lady Gaga");
+		names.add("Monica Lewinsky");
+		names.add("Your Mom");
+		names.add("Sarah Palin");
+		names.add("A girl scout");
+		names.add("The one female CS student");
+		names.add("Rachel Green");
+		names.add("Kim Kardashian");
+		names.add("Wendy Testaburger");
+		
+		long seed = System.nanoTime();
+		Collections.shuffle(names, new Random(seed));
+		
+		return names;
+	}
+	
+	public ArrayList<String> getMaleNames() {
+		ArrayList<String> names = new ArrayList<String>();
+		names.add("Donald Trump");
+		names.add("Adolf Hitler");
+		names.add("Homer Simpson");
+		names.add("Peter Griffin");
+		names.add("Dwight Schrute");
+		names.add("Jim Halpert");
+		names.add("Andy Dwyer");
+		names.add("Ron Swanson");
+		names.add("Michael Scott");
+		names.add("The Chicken from Family Guy");
+		names.add("Chandler Bing");
+		names.add("Al Gore");
+		names.add("Eric Cartman");
+		names.add("Stan Marsh");
+		names.add("Randy Marsh");
+		names.add("Kenny McCormick");
+		names.add("Kyle Broflovski");
+		names.add("Chris Griffin");
+		names.add("Stewie  Griffin");
+		names.add("Barack Obama");
+		names.add("Santa");
+		names.add("Easter Bunny");
+		names.add("Bart Simpson");
+		names.add("Quagmire");
+		names.add("Kanye");
+		names.add("Tom Cruise");
+		names.add("Charlie Sheen");
+		names.add("Michael Jackson");
+		names.add("Batman");
+		names.add("Peeta Melark");
+		names.add("IronMan");
+		
+		long seed = System.nanoTime();
+		Collections.shuffle(names, new Random(seed));
+		
+		return names;
 	}
 	
 }
