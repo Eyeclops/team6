@@ -1,6 +1,5 @@
-
-
 import java.awt.CardLayout;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -12,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 
 public class HungerGames extends JFrame implements ActionListener{
@@ -23,6 +23,8 @@ public class HungerGames extends JFrame implements ActionListener{
 	JPanel cardPanel;
 	JButton nextDay;
 	JButton prevDay;
+	JButton autofill;
+	JButton userSettings;
 	JPanel setUpPanel;
 	
 	public HungerGames(String title){
@@ -122,6 +124,34 @@ public class HungerGames extends JFrame implements ActionListener{
 		c.insets = new Insets(10,10,10,10);
 		setUpPanel.add(submit, c);
 		submit.addActionListener(this);
+		
+		JPanel filler = new JPanel();
+		filler.setBorder(new EmptyBorder(5, 5, 5, 5));
+		c.gridy = 15;
+		c.gridx = 0;
+		c.gridwidth = 4;
+		c.ipady = 20;
+		setUpPanel.add(filler, c);
+		
+		userSettings = new JButton("Settings...");
+		c.insets = new Insets(0,0,0,0);
+		c.anchor = GridBagConstraints.SOUTHWEST;
+		c.gridx = 0;
+		c.gridy = 16;
+		c.ipadx = 0;
+		c.ipady = 0;
+		c.gridwidth = 2;
+		setUpPanel.add(userSettings, c);
+		userSettings.addActionListener(this);
+		
+		autofill = new JButton("I don't have time for this");
+		c.anchor = GridBagConstraints.SOUTHEAST;
+		c.gridx = 2;
+		c.gridy = 16;
+		c.gridwidth = 2;
+		setUpPanel.add(autofill, c);
+		autofill.addActionListener(this);
+		
 		pane.add(cardPanel);
 		cardPanel.add(setUpPanel, "Setup");
 		CardLayout l = (CardLayout) cardPanel.getLayout();
@@ -153,11 +183,7 @@ public class HungerGames extends JFrame implements ActionListener{
 		nonLethal.add(new Event("_v1 and _v2 decided to work together", true));
 		nonLethal.add(new Event("_v1 was injured trying to escape from _v2", true));
 		nonLethal.add(new Event("_v1 got sick after drinking contaminated water", false));
-		nonLethal.add(new Event("_v1 and v2 got into a fistfight", true));
-		nonLethal.add(new Event("_v1 found a knife", false)); // not sure if item events belong here
-		nonLethal.add(new Event("_v1 made a spear", false));
-		nonLethal.add(new Event("_v1 found a gun", false));
-		nonLethal.add(new Event("_v1 found a machete", false));
+		nonLethal.add(new Event("_v1 and _v2 got into a fistfight", true));
 		data = new GameData(new ArrayList<Tribute>(), events, new ArrayList<Event>(), new  ArrayList<Item>(), 5, nonLethal, 2);
 
 	}
@@ -200,42 +226,49 @@ public class HungerGames extends JFrame implements ActionListener{
 					GridBagConstraints c = new GridBagConstraints();
 					
 					//Current Day
+					c.anchor = GridBagConstraints.NORTH;
 					c.gridx = 0;
 					c.gridy = 0;
 					c.ipadx = 20;
 					c.ipady = 20;
 					c.gridwidth = 4;
+					c.weighty = 1;
 					card.add(new JLabel("<html><h1>Day " + Integer.toString(data.getDay()) + "</h1></html>"), c);
-					
-					
+
+					//List of events
+					String eventString = getEventList(events);
+					JPanel eventPanel = new JPanel();
+					//eventPanel.setBorder(new EmptyBorder(40, 60, 40, 60));
+					eventPanel.add(new JLabel(eventString));
+					c.gridx = 0;
+					c.gridy = 1;
+					c.ipadx = 20;
+					c.ipady = 10;
+					c.gridwidth = 4;
+					card.add(eventPanel, c);
 				
 					String females = getFemaleList(tributes);
 					String males = getMaleList(tributes);
 					
 					//list of male tributes
-					c.gridx = 0;
-					c.gridy = 1;
+					c.gridx = 1;
+					c.gridy = 2;
 					c.ipadx = 20;
 					c.ipady = 20;
 					c.gridwidth = 1;
+					c.fill = GridBagConstraints.NONE;
 					card.add(new JLabel(males), c);
 					
 					//list of female tributes
-					c.gridx = 3;
-					c.gridy = 1;
+					c.anchor = GridBagConstraints.NORTHEAST;
+					c.gridx = 2;
+					c.gridy = 2;
 					c.ipadx = 20;
 					c.ipady = 20;
 					c.gridwidth = 1;
-					card.add(new JLabel(females), c);
+					card.add(new JLabel(females, SwingConstants.RIGHT), c);
 					
-					//List of events
-					String eventString = getEventList(events);
-					c.gridx = 1;
-					c.gridy = 1;
-					c.ipadx = 20;
-					c.ipady = 20;
-					c.gridwidth = 2;
-					card.add(new JLabel(eventString), c);
+
 					
 					if(data.getUsers().size() != 1) {
 						nextDay = new JButton("Next Day");
@@ -247,15 +280,17 @@ public class HungerGames extends JFrame implements ActionListener{
 					prevDay = new JButton("Previous Day");
 					prevDay.addActionListener(this);
 					
-					c.gridx = 2;
-					c.gridy = 2;
+					
+					c.gridx = 3;
+					c.gridy = 3;
 					c.ipadx = 20;
 					c.ipady = 20;
 					c.gridwidth = 1;
 					card.add(nextDay, c);
 					
-					c.gridx = 1;
-					c.gridy = 2;
+					
+					c.gridx = 0;
+					c.gridy = 3;
 					c.ipadx = 20;
 					c.ipady = 20;
 					c.gridwidth = 1;
@@ -270,6 +305,15 @@ public class HungerGames extends JFrame implements ActionListener{
 				l.next(cardPanel);
 			}
 		}
+		else if(e.getSource() == autofill){
+			ArrayList<String> males = data.getMaleNames();
+			ArrayList<String> females = data.getFemaleNames();
+			
+			for(int i = 0; i < 12; i++) {
+				maleTributes[i].setText(males.get(i));
+				femaleTributes[i].setText(females.get(i));
+			}
+		}
 		else if(e.getActionCommand().equals("Next Day") || e.getActionCommand().equals("Start Over!")) {
 			CardLayout l = (CardLayout) cardPanel.getLayout();
 			l.next(cardPanel);
@@ -280,7 +324,7 @@ public class HungerGames extends JFrame implements ActionListener{
 		}
 	}
 	public String getFemaleList(ArrayList<Tribute> t) {
-		String s = "<html><h2>Females<br><br>";
+		String s = "<html><right><h4>Females<br><br>";
 		for(int i = 0; i < t.size(); i++)
 		{
 			if(!t.get(i).getMale()) {
@@ -292,12 +336,12 @@ public class HungerGames extends JFrame implements ActionListener{
 				}
 			}
 		}
-		s += "</h2></html>";
+		s += "</h4></right></html>";
 		return s;
 	}
 	
 	public String getMaleList(ArrayList<Tribute> t){
-		String s = "<html><h2>Males<br><br>";
+		String s = "<html><h4>Males<br><br>";
 		for(int i = 0; i < t.size(); i++)
 		{
 			if(t.get(i).getMale()) {
@@ -309,11 +353,11 @@ public class HungerGames extends JFrame implements ActionListener{
 				}
 			}
 		}
-		s += "</h2></html>";
+		s += "</h4></html>";
 		return s;
 	}
 	public String getEventList(ArrayList<String> events) {
-		String s = "<html><h2><center><br>";
+		String s = "<html><h3><center><br>";
 		for(int i = 0; i < events.size(); i++)
 		{
 			if(!events.get(i).equals("_NULL_")) {
@@ -323,8 +367,80 @@ public class HungerGames extends JFrame implements ActionListener{
 				s += data.getUsers().get(0).getName() + " is the winner!";
 			}
 		}
-		s += "</h2></center></html>";
+		s += "</h3></center></html>";
 		return s;
 	}
 
+
+	
+	public static ArrayList<Event> lethalEvents() {
+		ArrayList<Event> events = new ArrayList<Event>();
+		events.add(new Event("_v1 killed _v2 with a rock", true));
+		events.add(new Event("_v1 shot _v2 with a gun", true));
+		events.add(new Event("_v1 stabbed _v2 with a knife", true));
+		events.add(new Event("_v1 strangled _v2", true));
+		events.add(new Event("_v1 beheaded _v2 with an axe", true));
+		events.add(new Event("_v1 broke _v2’s neck", true));
+		events.add(new Event("_v1 fell out of a tree and died", false));
+		events.add(new Event("_v1 died from dehydration", false));
+		events.add(new Event("_v1 fell off a cliff", false));
+		events.add(new Event("_v1 pushed _v2 off a cliff", true));
+		events.add(new Event("_v1 ran into the forcefield", false));
+		events.add(new Event("_v1 killed _v2 with a bow and arrow", true));
+		events.add(new Event("_v1 was killed by tracker jacker stings", false));
+		events.add(new Event("_v1 was killed by mutts", false));
+		events.add(new Event("_v1 beat _v2 to death", true));
+		events.add(new Event("_v1 died from starvation", false));
+		events.add(new Event("_v1 died from hypothermia", false));
+		events.add(new Event("_v1 drowned in the lake", false));
+		events.add(new Event("_v1 died from an infected wound", false));
+		events.add(new Event("_v1 pushed _v2 into the forcefield", true));
+		events.add(new Event("_v1 was blown away by landmines", false));
+		events.add(new Event("_v1 lit _v2 on fire", true));
+		events.add(new Event("_v1 fell into a pit and died", false));
+		events.add(new Event("_v1 stabbed _v2 with a tree branch", true));
+		events.add(new Event("_v1 killed _v2 in their sleep", true));
+		events.add(new Event("_v1 was killed by _v2 while trying to cook food", true));
+		events.add(new Event("_v1 was killed by poisonous gas", false));
+		events.add(new Event("_v1 was struck by lightning", false));
+		events.add(new Event("_v1 was killed by a landslide", false));
+		events.add(new Event("_v1 ate poisonous berries", false));
+		events.add(new Event("_v1 bled to death", false));
+		events.add(new Event("_v1 fell on their own sword", false));
+		events.add(new Event("_v1 was eaten by _v2", true));
+		return events;
+	}
+
+	public static ArrayList<Event> nonlethalEvents() {
+		ArrayList<Event> events = new ArrayList<Event>();
+		events.add(new Event("_v1 tripped _v2", true));
+		events.add(new Event("_v1 cut _v2 with a knife", true));
+		events.add(new Event("_v1 stabbed _v2 in the leg", true));
+		events.add(new Event("_v1 fell out of a tree and broke their arm", false));
+		events.add(new Event("_v1 punched _v2 and broke their nose", true));
+		events.add(new Event("_v1 and _v2 got in a fight", true));
+		events.add(new Event("_v1 passed out from exhaustion", false));
+		events.add(new Event("_v1 fell down a hill", false));
+		events.add(new Event("_v1 broke their ankle", false));
+		events.add(new Event("_v1 broke their leg", false));
+		events.add(new Event("_v1 was stung by tracker jackers", false));
+		events.add(new Event("_v1 traveled to higher ground", true));
+		events.add(new Event("_v1 climbed a tree", false));
+		events.add(new Event("_v1 hid in a cave", false));
+		events.add(new Event("_v1 hunted for food", false));
+		events.add(new Event("_v1 found a source of water", false));
+		events.add(new Event("_v1 followed _v2", true));
+		events.add(new Event("_v1 injured themselves", false));
+		events.add(new Event("_v1 attacked _v2, but they escape unharmed", true));
+		events.add(new Event("_v1 built a fire", false));
+		events.add(new Event("_v1 slept through the night", false));
+		events.add(new Event("_v1 received a gift from home", false));
+		events.add(new Event("_v1 and _v2 made a truce for the night", true));
+		events.add(new Event("_v1 chased _v2 deep into the woods", true));
+		events.add(new Event("_v1 sprained their ankle while running away", false));
+		events.add(new Event("_v1 caught a cold", false));
+		events.add(new Event("_v1 saved _v2’s life", true));
+		events.add(new Event("_v1 and _v2 make an alliance", true));
+		return events;
+	}
 }
