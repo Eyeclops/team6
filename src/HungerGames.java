@@ -1,7 +1,10 @@
 
 
+import java.awt.CardLayout;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -10,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 
 public class HungerGames extends JFrame implements ActionListener{
@@ -18,6 +22,12 @@ public class HungerGames extends JFrame implements ActionListener{
 	JLabel[] districts;
 	JTextField[] maleTributes;
 	JTextField[] femaleTributes;
+	JPanel cardPanel;
+	JButton nextDay;
+	JButton prevDay;
+	JButton autofill;
+	JButton userSettings;
+	JPanel setUpPanel;
 	
 	public HungerGames(String title){
 		super(title);
@@ -29,7 +39,13 @@ public class HungerGames extends JFrame implements ActionListener{
 		setSize(800, 800);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Container pane = getContentPane();
-		pane.setLayout(new GridBagLayout());
+		pane.setLayout(new FlowLayout());
+		
+		cardPanel = new JPanel(new CardLayout());
+		
+		
+		setUpPanel = new JPanel();
+		setUpPanel.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		
 		//top message
@@ -47,7 +63,7 @@ public class HungerGames extends JFrame implements ActionListener{
 		c.ipady = 20;
 		c.gridwidth = 4;
 		
-		pane.add(topMessage, c);
+		setUpPanel.add(topMessage, c);
 		
 		//male header
 		JLabel male = new JLabel("Male");
@@ -57,7 +73,7 @@ public class HungerGames extends JFrame implements ActionListener{
 		c.ipady = 0;
 		c.gridwidth = 1;
 		
-		pane.add(male, c);
+		setUpPanel.add(male, c);
 		
 		//female header
 		JLabel female = new JLabel("Female");
@@ -67,7 +83,7 @@ public class HungerGames extends JFrame implements ActionListener{
 		c.ipady = 0;
 		c.gridwidth = 1;
 		
-		pane.add(female, c);
+		setUpPanel.add(female, c);
 		
 		districts = new JLabel[12];
 		maleTributes = new JTextField[12];
@@ -80,7 +96,7 @@ public class HungerGames extends JFrame implements ActionListener{
 			c.ipadx = 40;
 			c.ipady = 10;
 			c.gridwidth = 1;
-			pane.add(districts[i], c);
+			setUpPanel.add(districts[i], c);
 			
 			maleTributes[i] = new JTextField(20);
 			c.gridx = 1;
@@ -89,7 +105,7 @@ public class HungerGames extends JFrame implements ActionListener{
 			c.ipady = 10;
 			c.gridwidth = 1;
 			c.insets = new Insets(4,4,4,4);
-			pane.add(maleTributes[i], c);
+			setUpPanel.add(maleTributes[i], c);
 			
 			femaleTributes[i] = new JTextField(20);
 			c.gridx = 2;
@@ -98,7 +114,7 @@ public class HungerGames extends JFrame implements ActionListener{
 			c.ipady = 10;
 			c.gridwidth = 1;
 			c.insets = new Insets(4,4,4,4);
-			pane.add(femaleTributes[i], c);
+			setUpPanel.add(femaleTributes[i], c);
 		}
 		
 		submit = new JButton("Let the Games Begin!");
@@ -108,8 +124,40 @@ public class HungerGames extends JFrame implements ActionListener{
 		c.ipady = 10;
 		c.gridwidth = 4;
 		c.insets = new Insets(10,10,10,10);
-		pane.add(submit, c);
+		setUpPanel.add(submit, c);
 		submit.addActionListener(this);
+		
+		JPanel filler = new JPanel();
+		filler.setBorder(new EmptyBorder(5, 5, 5, 5));
+		c.gridy = 15;
+		c.gridx = 0;
+		c.gridwidth = 4;
+		c.ipady = 20;
+		setUpPanel.add(filler, c);
+		
+		userSettings = new JButton("Settings...");
+		c.insets = new Insets(0,0,0,0);
+		c.anchor = GridBagConstraints.SOUTHWEST;
+		c.gridx = 0;
+		c.gridy = 16;
+		c.ipadx = 0;
+		c.ipady = 0;
+		c.gridwidth = 2;
+		setUpPanel.add(userSettings, c);
+		userSettings.addActionListener(this);
+		
+		autofill = new JButton("I don't have time for this");
+		c.anchor = GridBagConstraints.SOUTHEAST;
+		c.gridx = 2;
+		c.gridy = 16;
+		c.gridwidth = 2;
+		setUpPanel.add(autofill, c);
+		autofill.addActionListener(this);
+		
+		pane.add(cardPanel);
+		cardPanel.add(setUpPanel, "Setup");
+		CardLayout l = (CardLayout) cardPanel.getLayout();
+		l.show(cardPanel, "Setup");
 	}
 	
 	public static void main(String[] args) {
@@ -119,31 +167,210 @@ public class HungerGames extends JFrame implements ActionListener{
 		app.setLocation(400, 150);
 		app.pack();
 		app.setVisible(true);
-		
+
 		ArrayList<Event> events = new ArrayList<Event>();
-		events.add(new Event("_v1 killled _v2"));
-		data = new GameData(new ArrayList<Tribute>(), events, new ArrayList<Event>(), new  ArrayList<Item>(), 5);
+		events.add(new Event("_v1 killed _v2", true));
+		events.add(new Event("_v1 stabbed _v2 with a knife",true));
+		events.add(new Event("_v1 skewered _v2 with a spear", true));
+		events.add(new Event("_v1 fell off a cliff", false));
+		events.add(new Event("_v1 shot _v2", true));
+		events.add(new Event("_v1 died after eating poisoned food", false));
+		events.add(new Event("_v1 was stung to death by a swarm of hornets", false));
+		events.add(new Event("_v1 crushed _v2's skull with a rock", true));
+		events.add(new Event("_v1 decapitated _v2 with a machete", true));
+		events.add(new Event("_v1 was flattened under a landslide", false));
+		ArrayList<Event> nonLethal = new ArrayList<Event>();
+		nonLethal.add(new Event("_v1 bitch-slapped _v2", true));
+		nonLethal.add(new Event("_v1 slipped while climbing a tree and broke their leg", false));
+		nonLethal.add(new Event("_v1 and _v2 decided to work together", true));
+		nonLethal.add(new Event("_v1 was injured trying to escape from _v2", true));
+		nonLethal.add(new Event("_v1 got sick after drinking contaminated water", false));
+		nonLethal.add(new Event("_v1 and _v2 got into a fistfight", true));
+		data = new GameData(new ArrayList<Tribute>(), events, new ArrayList<Event>(), new  ArrayList<Item>(), 5, nonLethal, 2);
 
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == submit){
 			ArrayList<Tribute> tributes = new ArrayList<Tribute>();
+			boolean flag = false;
 			for(int i = 0; i < 12; i++){
 				Tribute t1 = new Tribute();
 				t1.setName(maleTributes[i].getText());
+				t1.setDistrict(i + 1);
+				t1.setMale(true);
 				Tribute t2 = new Tribute();
+				t2.setDistrict(i + 1);
+				t2.setMale(false);
 				t2.setName(femaleTributes[i].getText());
 				tributes.add(t1);
 				tributes.add(t2);
+				if(maleTributes[i].getText().trim().equals("") || femaleTributes[i].getText().trim().equals("")) {
+					flag = true;
+					break;
+				}
 			}
-			data.setUsers(tributes);
-			while(data.getUsers().size() != 1) {
-				data.nextDay();
+			if(flag)
+			{
+				JOptionPane.showMessageDialog(null, "You need to enter 24 names before starting.");
 			}
-			JOptionPane.showMessageDialog(null, data.getUsers().get(0).getName() + " is the winner!");
+			else {
+				cardPanel.removeAll();
+				cardPanel.add(setUpPanel, "Setup");
+				data.resetDay();
+				data.setUsers((ArrayList<Tribute>)tributes.clone());
+				
+				while(data.getUsers().size() != 1) {
+					ArrayList<String> events = data.nextDay();
+					
+					JPanel card = new JPanel();
+					card.setLayout(new GridBagLayout());
+					GridBagConstraints c = new GridBagConstraints();
+					
+					//Current Day
+					c.anchor = GridBagConstraints.NORTH;
+					c.gridx = 0;
+					c.gridy = 0;
+					c.ipadx = 20;
+					c.ipady = 20;
+					c.gridwidth = 4;
+					c.weighty = 1;
+					card.add(new JLabel("<html><h1>Day " + Integer.toString(data.getDay()) + "</h1></html>"), c);
+
+					//List of events
+					String eventString = getEventList(events);
+					JPanel eventPanel = new JPanel();
+					//eventPanel.setBorder(new EmptyBorder(40, 60, 40, 60));
+					eventPanel.add(new JLabel(eventString));
+					c.gridx = 0;
+					c.gridy = 1;
+					c.ipadx = 20;
+					c.ipady = 10;
+					c.gridwidth = 4;
+					card.add(eventPanel, c);
+				
+					String females = getFemaleList(tributes);
+					String males = getMaleList(tributes);
+					
+					//list of male tributes
+					c.gridx = 1;
+					c.gridy = 2;
+					c.ipadx = 20;
+					c.ipady = 20;
+					c.gridwidth = 1;
+					c.fill = GridBagConstraints.NONE;
+					card.add(new JLabel(males), c);
+					
+					//list of female tributes
+					c.anchor = GridBagConstraints.NORTHEAST;
+					c.gridx = 2;
+					c.gridy = 2;
+					c.ipadx = 20;
+					c.ipady = 20;
+					c.gridwidth = 1;
+					card.add(new JLabel(females, SwingConstants.RIGHT), c);
+					
+
+					
+					if(data.getUsers().size() != 1) {
+						nextDay = new JButton("Next Day");
+					}
+					else {
+						nextDay = new JButton("Start Over!");
+					}
+					nextDay.addActionListener(this);
+					prevDay = new JButton("Previous Day");
+					prevDay.addActionListener(this);
+					
+					
+					c.gridx = 3;
+					c.gridy = 3;
+					c.ipadx = 20;
+					c.ipady = 20;
+					c.gridwidth = 1;
+					card.add(nextDay, c);
+					
+					
+					c.gridx = 0;
+					c.gridy = 3;
+					c.ipadx = 20;
+					c.ipady = 20;
+					c.gridwidth = 1;
+					card.add(prevDay, c);
+					
+					//add panel to cards
+					cardPanel.add(card, "Day " + data.getDay());
+					
+				}
+//				JOptionPane.showMessageDialog(null, data.getUsers().get(0).getName() + " is the winner!");
+				CardLayout l = (CardLayout) cardPanel.getLayout();
+				l.next(cardPanel);
+			}
 		}
-		
+		else if(e.getSource() == autofill){
+			ArrayList<String> males = data.getMaleNames();
+			ArrayList<String> females = data.getFemaleNames();
+			
+			for(int i = 0; i < 12; i++) {
+				maleTributes[i].setText(males.get(i));
+				femaleTributes[i].setText(females.get(i));
+			}
+		}
+		else if(e.getActionCommand().equals("Next Day") || e.getActionCommand().equals("Start Over!")) {
+			CardLayout l = (CardLayout) cardPanel.getLayout();
+			l.next(cardPanel);
+		}
+		else if(e.getActionCommand().toString().equals("Previous Day")) {
+			CardLayout l = (CardLayout) cardPanel.getLayout();
+			l.previous(cardPanel);
+		}
+	}
+	public String getFemaleList(ArrayList<Tribute> t) {
+		String s = "<html><right><h4>Females<br><br>";
+		for(int i = 0; i < t.size(); i++)
+		{
+			if(!t.get(i).getMale()) {
+				if(t.get(i).getDead()) {
+					s += "<strike>" + t.get(i).getName() + "</strike><br>";
+				}
+				else {
+					s += t.get(i).getName() + "<br>";
+				}
+			}
+		}
+		s += "</h4></right></html>";
+		return s;
+	}
+	
+	public String getMaleList(ArrayList<Tribute> t){
+		String s = "<html><h4>Males<br><br>";
+		for(int i = 0; i < t.size(); i++)
+		{
+			if(t.get(i).getMale()) {
+				if(t.get(i).getDead()) {
+					s += "<strike>" + t.get(i).getName() + "</strike><br>";
+				}
+				else {
+					s += t.get(i).getName() + "<br>";
+				}
+			}
+		}
+		s += "</h4></html>";
+		return s;
+	}
+	public String getEventList(ArrayList<String> events) {
+		String s = "<html><h3><center><br>";
+		for(int i = 0; i < events.size(); i++)
+		{
+			if(!events.get(i).equals("_NULL_")) {
+				s += events.get(i) + "<br>";
+			}
+			else {
+				s += data.getUsers().get(0).getName() + " is the winner!";
+			}
+		}
+		s += "</h3></center></html>";
+		return s;
 	}
 
 }
