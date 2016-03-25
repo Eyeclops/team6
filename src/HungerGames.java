@@ -1,5 +1,3 @@
-
-
 import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.Container;
@@ -373,4 +371,76 @@ public class HungerGames extends JFrame implements ActionListener{
 		return s;
 	}
 
+
+	
+	public static ArrayList<Event> lethalEvents() {
+		ArrayList<Event> events = new ArrayList<Event>();
+		events.add(new Event("_v1 killed _v2 with a rock", true));
+		events.add(new Event("_v1 shot _v2 with a gun", true));
+		events.add(new Event("_v1 stabbed _v2 with a knife", true));
+		events.add(new Event("_v1 strangled _v2", true));
+		events.add(new Event("_v1 beheaded _v2 with an axe", true));
+		events.add(new Event("_v1 broke _v2’s neck", true));
+		events.add(new Event("_v1 fell out of a tree and died", false));
+		events.add(new Event("_v1 died from dehydration", false));
+		events.add(new Event("_v1 fell off a cliff", false));
+		events.add(new Event("_v1 pushed _v2 off a cliff", true));
+		events.add(new Event("_v1 ran into the forcefield", false));
+		events.add(new Event("_v1 killed _v2 with a bow and arrow", true));
+		events.add(new Event("_v1 was killed by tracker jacker stings", false));
+		events.add(new Event("_v1 was killed by mutts", false));
+		events.add(new Event("_v1 beat _v2 to death", true));
+		events.add(new Event("_v1 died from starvation", false));
+		events.add(new Event("_v1 died from hypothermia", false));
+		events.add(new Event("_v1 drowned in the lake", false));
+		events.add(new Event("_v1 died from an infected wound", false));
+		events.add(new Event("_v1 pushed _v2 into the forcefield", true));
+		events.add(new Event("_v1 was blown away by landmines", false));
+		events.add(new Event("_v1 lit _v2 on fire", true));
+		events.add(new Event("_v1 fell into a pit and died", false));
+		events.add(new Event("_v1 stabbed _v2 with a tree branch", true));
+		events.add(new Event("_v1 killed _v2 in their sleep", true));
+		events.add(new Event("_v1 was killed by _v2 while trying to cook food", true));
+		events.add(new Event("_v1 was killed by poisonous gas", false));
+		events.add(new Event("_v1 was struck by lightning", false));
+		events.add(new Event("_v1 was killed by a landslide", false));
+		events.add(new Event("_v1 ate poisonous berries", false));
+		events.add(new Event("_v1 bled to death", false));
+		events.add(new Event("_v1 fell on their own sword", false));
+		events.add(new Event("_v1 was eaten by _v2", true));
+		return events;
+	}
+
+	public static ArrayList<Event> nonlethalEvents() {
+		ArrayList<Event> events = new ArrayList<Event>();
+		events.add(new Event("_v1 tripped _v2", true));
+		events.add(new Event("_v1 cut _v2 with a knife", true));
+		events.add(new Event("_v1 stabbed _v2 in the leg", true));
+		events.add(new Event("_v1 fell out of a tree and broke their arm", false));
+		events.add(new Event("_v1 punched _v2 and broke their nose", true));
+		events.add(new Event("_v1 and _v2 got in a fight", true));
+		events.add(new Event("_v1 passed out from exhaustion", false));
+		events.add(new Event("_v1 fell down a hill", false));
+		events.add(new Event("_v1 broke their ankle", false));
+		events.add(new Event("_v1 broke their leg", false));
+		events.add(new Event("_v1 was stung by tracker jackers", false));
+		events.add(new Event("_v1 traveled to higher ground", true));
+		events.add(new Event("_v1 climbed a tree", false));
+		events.add(new Event("_v1 hid in a cave", false));
+		events.add(new Event("_v1 hunted for food", false));
+		events.add(new Event("_v1 found a source of water", false));
+		events.add(new Event("_v1 followed _v2", true));
+		events.add(new Event("_v1 injured themselves", false));
+		events.add(new Event("_v1 attacked _v2, but they escape unharmed", true));
+		events.add(new Event("_v1 built a fire", false));
+		events.add(new Event("_v1 slept through the night", false));
+		events.add(new Event("_v1 received a gift from home", false));
+		events.add(new Event("_v1 and _v2 made a truce for the night", true));
+		events.add(new Event("_v1 chased _v2 deep into the woods", true));
+		events.add(new Event("_v1 sprained their ankle while running away", false));
+		events.add(new Event("_v1 caught a cold", false));
+		events.add(new Event("_v1 saved _v2’s life", true));
+		events.add(new Event("_v1 and _v2 make an alliance", true));
+		return events;
+	}
 }
