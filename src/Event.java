@@ -18,6 +18,12 @@ public class Event {
 		item = null;
 	}
 	
+	public Event(String s, boolean transitive, Item item) {
+		event = s;
+		this.transitive = transitive;
+		this.item = item;
+	}
+	
 	public void SetItem(Item item){
 		this.item = item;
 	}
