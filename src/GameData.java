@@ -11,6 +11,8 @@ public class GameData {
 	private Random rand;
 	private int nonLethalNum;
 	private ArrayList<Event> nonLethal;
+	private int minKill;
+	private int minNonLethal;
 	//TODO add getters and setters
 	
 	/**
@@ -33,6 +35,8 @@ public class GameData {
 		this.killNum = killNum;
 		this.nonLethal = nonLethal;
 		this.nonLethalNum = nonLethalNum;
+		this.minKill = killNum/2;
+		this.minNonLethal = nonLethalNum/2;
 		day = 0;
 		rand = new Random(); //Randomly determine # of people to kill each day
 	}
@@ -58,10 +62,10 @@ public class GameData {
 	public ArrayList<String> nextDay(){
 		day++;
 		ArrayList<String> dead = new ArrayList<String>();
- 		int toKill = rand.nextInt(killNum) + 1; //Makes it so toKill is at least 1 and killNum can reach the max int.
- 		int randEvents = rand.nextInt(nonLethalNum) + 1;
+ 		int toKill = rand.nextInt(killNum - minKill) + minKill + 1; //Makes it so toKill is at least 1 and killNum can reach the max int.
+ 		int randEvents = rand.nextInt(nonLethalNum - minNonLethal) + minNonLethal + 1;
  		if(users.size() == 1) {
-			//To signify game is over, append a null-named user to the returned list.
+			//To signify game is over, append a null-named user to the returned list.	
 			dead.add("_NULL");
 			return dead;
 		}
@@ -98,7 +102,28 @@ public class GameData {
 			lastUser.setDead(true);
 			users.remove(lastUser); //remove from active players
 			if(e.isTransitive()){
-				dead.add(e.getString(lastUser, users.get(rand.nextInt(users.size()))));
+				if(e.getRequired() == null){
+					dead.add(e.getString(lastUser, users.get(rand.nextInt(users.size()))));
+				}
+				else{
+					LinkedList<Tribute> counter = new LinkedList<Tribute>();
+					//determine if there are any people who can legally do this transitive action.
+					for(Tribute t: users){
+						if(t.hasItem(e.getRequired())){
+							counter.add(t);
+						}
+					}
+					if(counter.size() >= 0) {
+						dead.add(e.getString(lastUser, counter.get(rand.nextInt(counter.size()))));
+					}
+					else {
+						//Since we didn't kill anyone, decrement i
+						users.add(lastUser);
+						lastUser.setDead(false);
+						i--;
+						continue;
+					}
+				}
 			} else {
 				dead.add(e.getString(lastUser));
 			}
@@ -112,6 +137,85 @@ public class GameData {
 	}
 	public void resetDay() {
 		day = 0;
+	}
+	
+	public ArrayList<String> getFemaleNames() {
+		ArrayList<String> names = new ArrayList<String>();
+		names.add("Leslie Knope");
+		names.add("Lois Griffin");
+		names.add("Maggie Simpson");
+		names.add("Lisa Simpson");
+		names.add("Meg Griffin");
+		names.add("WonderWoman");
+		names.add("Lidsay Lohan");
+		names.add("Britney Spears");
+		names.add("Hilary Clinton");
+		names.add("Pheobe Buffay");
+		names.add("Katniss Everdeen");
+		names.add("Amy Phoeler");
+		names.add("Tina Fey");
+		names.add("Kristen Whig");
+		names.add("Oprah");
+		names.add("Michelle Obama");
+		names.add("Hope Solo");
+		names.add("Queen of England");
+		names.add("The Purple Teletubbie");
+		names.add("Beyonce");
+		names.add("Ellen DeGeneres");
+		names.add("Lady Gaga");
+		names.add("Monica Lewinsky");
+		names.add("Your Mom");
+		names.add("Sarah Palin");
+		names.add("A girl scout");
+		names.add("The one female CS student");
+		names.add("Rachel Green");
+		names.add("Kim Kardashian");
+		names.add("Wendy Testaburger");
+		
+		long seed = System.nanoTime();
+		Collections.shuffle(names, new Random(seed));
+		
+		return names;
+	}
+	
+	public ArrayList<String> getMaleNames() {
+		ArrayList<String> names = new ArrayList<String>();
+		names.add("Donald Trump");
+		names.add("Adolf Hitler");
+		names.add("Homer Simpson");
+		names.add("Peter Griffin");
+		names.add("Dwight Schrute");
+		names.add("Jim Halpert");
+		names.add("Andy Dwyer");
+		names.add("Ron Swanson");
+		names.add("Michael Scott");
+		names.add("The Chicken from Family Guy");
+		names.add("Chandler Bing");
+		names.add("Al Gore");
+		names.add("Eric Cartman");
+		names.add("Stan Marsh");
+		names.add("Randy Marsh");
+		names.add("Kenny McCormick");
+		names.add("Kyle Broflovski");
+		names.add("Chris Griffin");
+		names.add("Stewie  Griffin");
+		names.add("Barack Obama");
+		names.add("Santa");
+		names.add("Easter Bunny");
+		names.add("Bart Simpson");
+		names.add("Quagmire");
+		names.add("Kanye");
+		names.add("Tom Cruise");
+		names.add("Charlie Sheen");
+		names.add("Michael Jackson");
+		names.add("Batman");
+		names.add("Peeta Melark");
+		names.add("IronMan");
+		
+		long seed = System.nanoTime();
+		Collections.shuffle(names, new Random(seed));
+		
+		return names;
 	}
 	
 }
