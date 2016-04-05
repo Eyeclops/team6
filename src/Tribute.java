@@ -101,6 +101,10 @@ public class Tribute {
 		
 	}
 	
+	public boolean hasItem(Item item){
+		return items.contains(item);
+	}
+	
 	void setEvent(Event event, Tribute killer){
 		if(killer == null){
 			this.event = event.getString(this);
