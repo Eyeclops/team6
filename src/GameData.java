@@ -11,6 +11,8 @@ public class GameData {
 	private Random rand;
 	private int nonLethalNum;
 	private ArrayList<Event> nonLethal;
+	private int minKill;
+	private int minNonLethal;
 	//TODO add getters and setters
 	
 	/**
@@ -33,6 +35,8 @@ public class GameData {
 		this.killNum = killNum;
 		this.nonLethal = nonLethal;
 		this.nonLethalNum = nonLethalNum;
+		this.minKill = killNum/2;
+		this.minNonLethal = nonLethalNum/2;
 		day = 0;
 		rand = new Random(); //Randomly determine # of people to kill each day
 	}
@@ -58,10 +62,10 @@ public class GameData {
 	public ArrayList<String> nextDay(){
 		day++;
 		ArrayList<String> dead = new ArrayList<String>();
- 		int toKill = rand.nextInt(killNum) + 1; //Makes it so toKill is at least 1 and killNum can reach the max int.
- 		int randEvents = rand.nextInt(nonLethalNum) + 1;
+ 		int toKill = rand.nextInt(killNum - minKill) + minKill + 1; //Makes it so toKill is at least 1 and killNum can reach the max int.
+ 		int randEvents = rand.nextInt(nonLethalNum - minNonLethal) + minNonLethal + 1;
  		if(users.size() == 1) {
-			//To signify game is over, append a null-named user to the returned list.
+			//To signify game is over, append a null-named user to the returned list.	
 			dead.add("_NULL");
 			return dead;
 		}
@@ -98,7 +102,28 @@ public class GameData {
 			lastUser.setDead(true);
 			users.remove(lastUser); //remove from active players
 			if(e.isTransitive()){
-				dead.add(e.getString(lastUser, users.get(rand.nextInt(users.size()))));
+				if(e.getRequired() == null){
+					dead.add(e.getString(lastUser, users.get(rand.nextInt(users.size()))));
+				}
+				else{
+					LinkedList<Tribute> counter = new LinkedList<Tribute>();
+					//determine if there are any people who can legally do this transitive action.
+					for(Tribute t: users){
+						if(t.hasItem(e.getRequired())){
+							counter.add(t);
+						}
+					}
+					if(counter.size() >= 0) {
+						dead.add(e.getString(lastUser, counter.get(rand.nextInt(counter.size()))));
+					}
+					else {
+						//Since we didn't kill anyone, decrement i
+						users.add(lastUser);
+						lastUser.setDead(false);
+						i--;
+						continue;
+					}
+				}
 			} else {
 				dead.add(e.getString(lastUser));
 			}

@@ -6,6 +6,7 @@ public class Event {
 	String event; //Strings are formatted with person 1 being "_v1" and person 2 being "_v2"
 	boolean transitive;
 	Item item; //Will be null if the event does not have an item associated with it
+	Item required; //This is required ONLY for transitive events.
 	
 	/**
 	 * Constructor
@@ -16,6 +17,28 @@ public class Event {
 		event = s;
 		this.transitive = transitive;
 		item = null;
+		required = null;
+	}
+	
+	public Event(String s, boolean transitive, Item item) {
+		event = s;
+		this.transitive = transitive;
+		this.item = item;
+	}
+	
+	public Event(String s, boolean transitive, Item item, Item required) {
+		event = s;
+		this.transitive = transitive;
+		this.item = item;
+		this.required = required;
+	}
+	
+	public Item getRequired(){
+		return this.required;
+	}
+	
+	public void setRequired(Item required){
+		this.required = required;
 	}
 	
 	public void SetItem(Item item){
